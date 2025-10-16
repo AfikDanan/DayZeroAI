@@ -16,7 +16,7 @@ def generate_onboarding_video(employee_data_dict: dict, job_id: str) -> dict:
     redis_conn = Redis(
         host=settings.REDIS_HOST,
         port=settings.REDIS_PORT,
-        decode_responses=True
+        decode_responses=False  # Match other Redis connections
     )
     
     try:
@@ -49,11 +49,22 @@ def generate_onboarding_video(employee_data_dict: dict, job_id: str) -> dict:
         
         # Send notification to new hire
         notification_service = NotificationService()
-        notification_service.send_video_ready_email(
+        
+        # Try SendGrid first, fallback to logging if it fails
+        email_sent = notification_service.send_video_ready_email(
             employee_data.email,
             employee_data.name,
             video_url
         )
+        
+        if not email_sent:
+            logger.warning("SendGrid email failed, using fallback notification")
+            notification_service.send_video_ready_email(
+                employee_data.email,
+                employee_data.name,
+                video_url,
+                use_fallback=True
+            )
         
         logger.info(f"Video generation completed for job {job_id}")
         
