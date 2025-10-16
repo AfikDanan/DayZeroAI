@@ -67,5 +67,6 @@ services:
     plan: starter
     maxmemoryPolicy: allkeys-lru
     ipAllowList:
-      - source: preboarding-api
-      - source: preboarding-worker
+      - 10.0.0.0/8     # Render internal network
+      - 172.16.0.0/12  # Render internal network
+      - 192.168.0.0/16 # Render internal network
