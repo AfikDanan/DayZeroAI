@@ -19,11 +19,12 @@ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip
 unzip awscliv2.zip
 sudo ./aws/install
 
-# Install Serverless Framework
-npm install -g serverless
+# Install AWS CLI (if not already installed)
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
 
-# Install Node.js dependencies
-npm install serverless-python-requirements serverless-iam-roles-per-function
+# For Windows, download from: https://aws.amazon.com/cli/
 ```
 
 ### 3. API Keys Required

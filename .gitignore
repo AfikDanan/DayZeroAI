@@ -210,10 +210,12 @@ logs/
 node_modules/
 package-lock.json
 yarn.lock
+cloudformation-template.yaml
 
 # Lambda deployment packages
 *.zip
 lambda-package/
+lambda-deployment.zip
 
 # Terraform
 *.tfstate
@@ -236,3 +238,6 @@ desktop.ini
 # Linux
 *~
 
+
+#remove after finish demo and going live at aws
+/aws
