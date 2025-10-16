@@ -5,7 +5,7 @@ class Settings(BaseSettings):
     # API Keys
     OPENAI_API_KEY: str
     SENDGRID_API_KEY: str
-    GOOGLE_APPLICATION_CREDENTIALS: str = "preboarding_service\google_credencial.json"
+    GOOGLE_APPLICATION_CREDENTIALS: str = "google_credencial.json"
 
     # Redis Configuration
     REDIS_HOST: str = "localhost"
@@ -22,6 +22,7 @@ class Settings(BaseSettings):
     BASE_URL: str = "http://localhost:8000"
     
     # Application Settings
+    ENVIRONMENT: str = "development"
     DEBUG: bool = False
     LOG_LEVEL: str = "INFO"
     
