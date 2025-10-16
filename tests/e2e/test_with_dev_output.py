@@ -10,7 +10,7 @@ from pathlib import Path
 from datetime import datetime, date
 
 # Add the app to the path
-sys.path.append('.')
+sys.path.append('..')
 
 from app.models.webhook import EmployeeData
 from app.workers.video_worker import generate_onboarding_video
