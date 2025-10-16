@@ -41,7 +41,7 @@ brew install ffmpeg redis                  # macOS
 redis-server
 ```
 
-### Setup
+### Quick Start
 
 ```bash
 # 1. Clone and install
@@ -52,16 +52,25 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 # 2. Configure environment
-cp .env.example .env
-# Edit .env with your API keys
+cp examples/.env.example .env
+cp examples/google_credencial.json.example google_credencial.json
+# Edit both files with your API keys
 
-# 3. Setup Google Cloud credentials
-cp google_credencial.json.example google_credencial.json
-# Edit google_credencial.json with your GCP service account credentials
+# 3. Start services
+docker run -d --name redis-preboarding -p 6379:6379 redis:7-alpine
+python scripts/start_api_server.bat  # Windows
+python scripts/start_worker.bat      # Windows
 
-# 4. Run database migrations (if using DB)
-# python migrate.py  # For production only
+# 4. Test the service
+python tests/check_setup.py
+python tests/test_webhook.py
 ```
+
+## Documentation
+
+- 📖 [Setup Guide](docs/SETUP.md) - Detailed installation and configuration
+- 🏗️ [Architecture](docs/ARCHITECTURE.md) - System design and components  
+- 🔌 [API Reference](docs/API.md) - Complete API documentation
 
 ### Running Locally
 
