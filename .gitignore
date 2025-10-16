@@ -1,31 +1,225 @@
-# Dependencies
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-/venv
-*/*/__pycache__
-*/__pycache__
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
-# Production builds
-/build
-/dist
+# C extensions
+*.so
 
-# Environment variables
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+PYTHONPATH
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+# .python-version
+
+# pipenv
+#Pipfile.lock
+
+# poetry
+#poetry.lock
+
+# pdm
+#pdm.lock
+.pdm.toml
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
 .env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
-google_credencial.json
+.env.development
+.env.test
+.env.production
+.env.aws
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
+# Spyder project settings
+.spyderproject
+.spyproject
 
-# IDE and editor files
-.vscode/
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# PyCharm
 .idea/
+
+# VS Code
+.vscode/
+
+# ===================================
+# PROJECT SPECIFIC
+# ===================================
+
+# Generated content directories
+videos/
+dev_output/
+test_output/
+
+# Credentials and secrets
+.env*
+google_credencial.json
+google_credentials.json
+*.pem
+*.key
+*.crt
+
+# Media files (except samples)
+*.mp4
+*.mp3
+*.wav
+*.avi
+*.mov
+*.wmv
+*.flv
+*.webm
+
+# Image files (except templates and samples)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.svg
+# Keep sample images and templates
+!app/utils/static/*.png
+!examples/*.png
+!docs/images/*.png
+!test_output/samples/*.png
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
 *.swp
 *.swo
 *~
+
+# Logs
+*.log
+logs/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# AWS deployment artifacts
+.serverless/
+node_modules/
+package-lock.json
+yarn.lock
+
+# Lambda deployment packages
+*.zip
+lambda-package/
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
 
 # OS generated files
 .DS_Store
@@ -36,19 +230,9 @@ google_credencial.json
 ehthumbs.db
 Thumbs.db
 
-# Logs
-*.log
-logs/
+# Windows
+desktop.ini
 
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
+# Linux
+*~
 
-# Coverage directory used by tools like istanbul
-coverage/
-
-# Temporary folders
-tmp/
-temp/
