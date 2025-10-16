@@ -66,4 +66,7 @@ services:
     name: preboarding-redis
     plan: starter
     maxmemoryPolicy: allkeys-lru
-    # Note: ipAllowList removed to allow access from all services in the same account
+    ipAllowList:
+      - "10.0.0.0/8"
+      - "172.16.0.0/12"
+      - "192.168.0.0/16"

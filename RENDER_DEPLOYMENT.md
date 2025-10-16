@@ -95,7 +95,7 @@ curl -X POST https://your-app-name.onrender.com/webhooks/user-onboarding \
 - **Type**: Redis
 - **Plan**: Starter (25MB free)
 - **Memory Policy**: allkeys-lru
-- **Access**: Allows connections from all services in the same Render account
+- **IP Allow List**: Configured with private network ranges for internal access
 
 ## 💰 Pricing
 
