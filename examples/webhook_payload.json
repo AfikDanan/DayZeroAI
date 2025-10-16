@@ -1,0 +1,74 @@
+{
+    "event_type": "user.onboarding",
+    "employee_data": {
+        "employee_id": "EMP001",
+        "name": "Sarah Johnson",
+        "email": "sarah.johnson@company.com",
+        "position": "Senior Software Engineer",
+        "team": "Platform Engineering",
+        "manager": "Michael Chen",
+        "start_date": "2025-10-20",
+        "office": "San Francisco HQ",
+        "department": "Engineering",
+        "buddy": "Alex Martinez",
+        "tech_stack": [
+            "Python",
+            "FastAPI",
+            "Kubernetes",
+            "PostgreSQL",
+            "Redis",
+            "React"
+        ],
+        "first_day_schedule": [
+            {
+                "time": "9:00 AM",
+                "activity": "Welcome & HR Orientation",
+                "location": "Conference Room A",
+                "attendees": [
+                    "HR Team"
+                ]
+            },
+            {
+                "time": "10:30 AM",
+                "activity": "IT Setup & Equipment Distribution",
+                "location": "IT Department",
+                "attendees": [
+                    "IT Support"
+                ]
+            },
+            {
+                "time": "12:00 PM",
+                "activity": "Team Lunch",
+                "location": "Cafeteria",
+                "attendees": [
+                    "Platform Team"
+                ]
+            },
+            {
+                "time": "2:00 PM",
+                "activity": "Meet Your Manager & Team Introduction",
+                "location": "Team Space",
+                "attendees": [
+                    "Michael Chen",
+                    "Platform Team"
+                ]
+            },
+            {
+                "time": "3:30 PM",
+                "activity": "Development Environment Setup",
+                "location": "Your Desk",
+                "attendees": [
+                    "Alex Martinez"
+                ]
+            }
+        ],
+        "first_week_schedule": {
+            "Monday": "Onboarding, IT Setup, Team Introductions",
+            "Tuesday": "Development Environment Setup, Codebase Overview",
+            "Wednesday": "Architecture Deep Dive, Meet Key Stakeholders",
+            "Thursday": "First Small Task, Pair Programming Session",
+            "Friday": "Week Review, Q&A, Team Social Event"
+        }
+    },
+    "timestamp": "2025-10-15T10:30:00Z"
+}
