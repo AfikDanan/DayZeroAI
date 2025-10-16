@@ -1,0 +1,73 @@
+# Render.com deployment configuration
+services:
+  # Web Service - FastAPI Application
+  - type: web
+    name: preboarding-api
+    env: python
+    plan: starter  # Can upgrade to standard/pro for production
+    buildCommand: pip install -r requirements-render.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: REDIS_HOST
+        fromService:
+          type: redis
+          name: preboarding-redis
+          property: host
+      - key: REDIS_PORT
+        fromService:
+          type: redis
+          name: preboarding-redis
+          property: port
+      - key: BASE_URL
+        fromService:
+          type: web
+          name: preboarding-api
+          property: host
+      # These will be set manually in Render dashboard for security
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: SENDGRID_API_KEY
+        sync: false
+      - key: FROM_EMAIL
+        sync: false
+      - key: GOOGLE_APPLICATION_CREDENTIALS_JSON
+        sync: false
+
+  # Background Worker Service
+  - type: worker
+    name: preboarding-worker
+    env: python
+    plan: starter
+    buildCommand: pip install -r requirements-render.txt
+    startCommand: python -m rq worker video_generation --url redis://$REDIS_HOST:$REDIS_PORT
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: REDIS_HOST
+        fromService:
+          type: redis
+          name: preboarding-redis
+          property: host
+      - key: REDIS_PORT
+        fromService:
+          type: redis
+          name: preboarding-redis
+          property: port
+      # These will be set manually in Render dashboard for security
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: SENDGRID_API_KEY
+        sync: false
+      - key: FROM_EMAIL
+        sync: false
+      - key: GOOGLE_APPLICATION_CREDENTIALS_JSON
+        sync: false
+
+  # Redis Database
+  - type: redis
+    name: preboarding-redis
+    plan: starter  # 25MB free tier
+    maxmemoryPolicy: allkeys-lru

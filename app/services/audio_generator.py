@@ -9,10 +9,23 @@ logger = logging.getLogger(__name__)
 
 class AudioGenerator:
     def __init__(self):
-        # Ensure credentials are set correctly
+        # Handle Google Cloud credentials for different deployment environments
         import os
+        import json
         from app.config import settings
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = settings.GOOGLE_APPLICATION_CREDENTIALS
+        
+        if settings.GOOGLE_APPLICATION_CREDENTIALS_JSON:
+            # For Render.com deployment - credentials as JSON string
+            import tempfile
+            credentials_dict = json.loads(settings.GOOGLE_APPLICATION_CREDENTIALS_JSON)
+            
+            # Create temporary credentials file
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+                json.dump(credentials_dict, f)
+                os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = f.name
+        else:
+            # For local development - credentials file path
+            os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = settings.GOOGLE_APPLICATION_CREDENTIALS
         
         self.client = texttospeech.TextToSpeechClient()
         

@@ -14,6 +14,29 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 
+logger = logging.getLogger(__name__)
+
+# Render.com startup configuration
+if settings.ENVIRONMENT == "production":
+    import os
+    import json
+    import tempfile
+    
+    # Setup Google Cloud credentials for Render
+    if settings.GOOGLE_APPLICATION_CREDENTIALS_JSON:
+        try:
+            credentials_dict = json.loads(settings.GOOGLE_APPLICATION_CREDENTIALS_JSON)
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+                json.dump(credentials_dict, f)
+                os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = f.name
+            logger.info("Google Cloud credentials configured for production")
+        except json.JSONDecodeError as e:
+            logger.error(f"Invalid Google Cloud credentials JSON: {e}")
+    
+    # Create necessary directories
+    for directory in ["videos", "dev_output", "temp"]:
+        Path(directory).mkdir(exist_ok=True)
+
 # Create FastAPI app
 app = FastAPI(
     title="Preboarding Service",

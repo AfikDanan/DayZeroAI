@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: str
     SENDGRID_API_KEY: str
     GOOGLE_APPLICATION_CREDENTIALS: str = "google_credencial.json"
+    GOOGLE_APPLICATION_CREDENTIALS_JSON: str = ""  # For Render.com deployment
 
     # Redis Configuration
     REDIS_HOST: str = "localhost"
