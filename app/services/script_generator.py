@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 from typing import List, Tuple
 from openai import OpenAI
 from app.models.webhook import EmployeeData
@@ -135,3 +136,34 @@ covers these key points naturally. Make them feel excited and prepared!"""
                         script.append((speaker, text))
         
         return script
+    
+    def save_script_for_dev(
+        self, 
+        script: List[Tuple[str, str]], 
+        employee_data: EmployeeData, 
+        dev_dir: Path
+    ) -> None:
+        """Save script in readable format for development review"""
+        from pathlib import Path
+        
+        script_file = dev_dir / "script.txt"
+        
+        with open(script_file, 'w', encoding='utf-8') as f:
+            f.write("ONBOARDING VIDEO SCRIPT\n")
+            f.write("=" * 50 + "\n\n")
+            f.write(f"Employee: {employee_data.name}\n")
+            f.write(f"Position: {employee_data.position}\n")
+            f.write(f"Team: {employee_data.team}\n")
+            f.write(f"Manager: {employee_data.manager}\n")
+            f.write(f"Start Date: {employee_data.start_date}\n\n")
+            f.write("SCRIPT:\n")
+            f.write("-" * 30 + "\n\n")
+            
+            for i, (speaker, text) in enumerate(script, 1):
+                speaker_name = "Alex" if speaker == "host1" else "Jordan"
+                f.write(f"{i}. {speaker_name.upper()}:\n")
+                f.write(f"   {text}\n\n")
+            
+            f.write(f"\nTotal script lines: {len(script)}\n")
+        
+        logger.info(f"Script saved to: {script_file}")

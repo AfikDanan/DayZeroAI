@@ -21,7 +21,7 @@ class WebhookProcessor:
         self.redis_conn = Redis(
             host=settings.REDIS_HOST,
             port=settings.REDIS_PORT,
-            decode_responses=True
+            decode_responses=False
         )
         self.queue = Queue('video_generation', connection=self.redis_conn)
         
@@ -67,7 +67,7 @@ class WebhookProcessor:
             from app.workers.video_worker import generate_onboarding_video
             rq_job = self.queue.enqueue(
                 generate_onboarding_video,
-                payload.employee_data.dict(),
+                payload.employee_data.model_dump(),
                 job_id=job_id,
                 timeout='10m',
                 result_ttl=86400  # Keep result for 24 hours
@@ -99,7 +99,7 @@ class WebhookProcessor:
     def _store_job(self, job: VideoGenerationJob) -> None:
         """Store job information in Redis"""
         redis_key = f"job:{job.job_id}"
-        job_data = job.dict()
+        job_data = job.model_dump()
         
         # Convert values for Redis storage
         redis_data = {}

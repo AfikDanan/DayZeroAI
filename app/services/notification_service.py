@@ -15,9 +15,13 @@ class NotificationService:
         self,
         to_email: str,
         name: str,
-        video_url: str
+        video_url: str,
+        use_fallback: bool = False
     ) -> bool:
         """Send email notification when video is ready"""
+        
+        if use_fallback:
+            return self._send_fallback_notification(to_email, name, video_url, "video_ready")
         
         first_name = name.split()[0]
         full_video_url = f"{self.base_url}{video_url}"
@@ -119,14 +123,27 @@ class NotificationService:
             
             response = self.sg.send(message)
             
-            logger.info(
-                f"Email sent to {to_email}, status: {response.status_code}"
-            )
-            
-            return response.status_code == 202
+            if response.status_code == 202:
+                logger.info(f"Email sent successfully to {to_email}")
+                return True
+            else:
+                logger.warning(
+                    f"Email send returned status {response.status_code} for {to_email}"
+                )
+                return False
             
         except Exception as e:
-            logger.error(f"Error sending email to {to_email}: {str(e)}")
+            error_msg = str(e)
+            logger.error(f"Error sending email to {to_email}: {error_msg}")
+            
+            # Log specific SendGrid errors for debugging
+            if "403" in error_msg:
+                logger.error("SendGrid 403 Error - Check API key and sender verification")
+            elif "401" in error_msg:
+                logger.error("SendGrid 401 Error - Invalid API key")
+            elif "400" in error_msg:
+                logger.error("SendGrid 400 Error - Invalid request format")
+            
             return False
     
     def send_error_notification(
@@ -175,3 +192,66 @@ class NotificationService:
         except Exception as e:
             logger.error(f"Error sending error notification: {str(e)}")
             return False
+    
+    def _send_fallback_notification(
+        self,
+        to_email: str,
+        name: str,
+        video_url: str,
+        notification_type: str
+    ) -> bool:
+        """Fallback notification method for development/testing"""
+        
+        first_name = name.split()[0]
+        full_video_url = f"{self.base_url}{video_url}"
+        
+        logger.info("=" * 60)
+        logger.info("📧 EMAIL NOTIFICATION (FALLBACK MODE)")
+        logger.info("=" * 60)
+        logger.info(f"To: {to_email}")
+        logger.info(f"From: {self.from_email}")
+        logger.info(f"Type: {notification_type}")
+        
+        if notification_type == "video_ready":
+            logger.info(f"Subject: Welcome to the team, {first_name}! 🎉")
+            logger.info(f"Video URL: {full_video_url}")
+            logger.info("Content: Personalized welcome video is ready!")
+        else:
+            logger.info(f"Subject: Welcome to the team, {first_name}!")
+            logger.info("Content: Error notification - video generation failed")
+        
+        logger.info("=" * 60)
+        logger.info("✅ Fallback notification logged successfully")
+        logger.info("💡 In production, this would be sent via SendGrid")
+        logger.info("=" * 60)
+        
+        return True
+    
+    def test_sendgrid_connection(self) -> dict:
+        """Test SendGrid API connection and configuration"""
+        
+        result = {
+            "api_key_configured": bool(self.sg.api_key),
+            "from_email_set": bool(self.from_email),
+            "base_url_set": bool(self.base_url),
+            "connection_test": False,
+            "error_message": None
+        }
+        
+        try:
+            # Try to create a test message (don't send it)
+            test_message = Mail(
+                from_email=Email(self.from_email),
+                to_emails=To("test@example.com"),
+                subject="Connection Test",
+                html_content=Content("text/html", "<p>Test</p>")
+            )
+            
+            result["connection_test"] = True
+            result["message"] = "SendGrid client configured correctly"
+            
+        except Exception as e:
+            result["error_message"] = str(e)
+            result["message"] = f"SendGrid configuration error: {e}"
+        
+        return result

@@ -9,18 +9,23 @@ logger = logging.getLogger(__name__)
 
 class AudioGenerator:
     def __init__(self):
+        # Ensure credentials are set correctly
+        import os
+        from app.config import settings
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = settings.GOOGLE_APPLICATION_CREDENTIALS
+        
         self.client = texttospeech.TextToSpeechClient()
         
         # Configure voices for each host
         self.voices = {
             'host1': {
                 'language_code': 'en-US',
-                'name': 'en-US-Neural2-J',  # Male voice
+                'name': 'en-US-Chirp3-HD-Algenib',  # Male voice
                 'ssml_gender': texttospeech.SsmlVoiceGender.MALE
             },
             'host2': {
                 'language_code': 'en-US',
-                'name': 'en-US-Neural2-F',  # Female voice
+                'name': 'en-US-Chirp3-HD-Aoede',  # Female voice
                 'ssml_gender': texttospeech.SsmlVoiceGender.FEMALE
             }
         }
