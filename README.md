@@ -45,7 +45,7 @@ redis-server
 
 ```bash
 # 1. Clone and install
-git clone <your-repo>
+git clone https://github.com/AfikDanan/DayZeroAI
 cd preboarding-service
 python -m venv venv
 source venv/bin/activate
